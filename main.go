@@ -12,6 +12,8 @@ func main() {
 			initCmd,
 			ls,
 			set,
+			gotoCmd,
+			rm,
 		},
 	}
 
