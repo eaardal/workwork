@@ -4,9 +4,10 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var initCmd = &cli.Command{
-	Name:  "init",
-	Usage: "Create a .workwork file with initial config",
+var initCommand = &cli.Command{
+	Name:      "init",
+	Usage:     "Create a .workwork file with default content",
+	UsageText: "Running `ww init` will start a wizard that will ask you for URLs for common things like docs, logs, ci, tasks, etc. The more you are able to fill in, the better. You can always add more, update or delete URLs later.",
 	Action: func(c *cli.Context) error {
 		ui := newUserInterface()
 

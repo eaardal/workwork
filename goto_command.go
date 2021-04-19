@@ -7,9 +7,10 @@ import (
 	"runtime"
 )
 
-var gotoCmd = &cli.Command{
-	Name:  "goto",
-	Usage: "Go to the URL for the given key, using the OS default browser",
+var gotoCommand = &cli.Command{
+	Name:      "goto",
+	Usage:     "Open the URL for the given key using the default browser",
+	UsageText: "Any URLs listed by `ww ls` can be opened with this command: `ww goto {key}`. If you're on Mac, the `open` executable will be used. On Linux, it'll check for [open, xdg-open] in that order (more advanced Linux support probably needed). On Windows, the `start` executable will be used.",
 	Action: func(c *cli.Context) error {
 		ui := newUserInterface()
 

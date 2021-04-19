@@ -8,12 +8,14 @@ import (
 
 func main() {
 	app := &cli.App{
+		Name:  "WorkWork",
+		Usage: "A simple dictionary for listing and opening URLs for common software development concerns",
 		Commands: []*cli.Command{
-			initCmd,
-			ls,
-			set,
-			gotoCmd,
-			rm,
+			initCommand,
+			lsCommand,
+			gotoCommand,
+			setCommand,
+			rmCommand,
 		},
 	}
 

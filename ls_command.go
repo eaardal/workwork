@@ -5,9 +5,10 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var ls = &cli.Command{
-	Name:  "ls",
-	Usage: "List all the registered URLs",
+var lsCommand = &cli.Command{
+	Name:      "ls",
+	Usage:     "List all the registered URLs",
+	UsageText: "Run like this: `ww ls`",
 	Action: func(c *cli.Context) error {
 		ww, err := readWorkWorkFile()
 		if err != nil {

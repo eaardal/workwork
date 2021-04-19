@@ -4,9 +4,10 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var rm = &cli.Command{
-	Name:  "rm",
-	Usage: "Remove a URL",
+var rmCommand = &cli.Command{
+	Name:      "rm",
+	Usage:     "Remove the URL for the given key",
+	UsageText: "Remove a single URL: `ww rm {key}`. Remove many at once: `ww rm {key1} {key2} {key3}`",
 	Action: func(c *cli.Context) error {
 		printer := newUserInterface()
 

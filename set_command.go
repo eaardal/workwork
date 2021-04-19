@@ -6,9 +6,10 @@ import (
 	"strings"
 )
 
-var set = &cli.Command{
-	Name:  "set",
-	Usage: "Set a new value for a key",
+var setCommand = &cli.Command{
+	Name:      "set",
+	Usage:     "Set a new URL for an existing key, or add a new URL if the key doesn't exist",
+	UsageText: "Add or update single item: `ww set key=url`. Add or update many at once: `ww set key=url key=url key=url`. If the key exists, the URL will be updated. If the key doesn't exist, the URL will be added. Keys must consist of a-z lower cased letters only and use snake_case if you need spacing.",
 	Action: func(c *cli.Context) error {
 		printer := newUserInterface()
 
