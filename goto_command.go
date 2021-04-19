@@ -14,10 +14,21 @@ var gotoCommand = &cli.Command{
 	Action: func(c *cli.Context) error {
 		ui := newUserInterface()
 
-		key := c.Args().Get(0)
+		args := c.Args()
 
-		if !isValidKey(key) {
-			return fmt.Errorf("invalid key '%s'", key)
+		var keyArg string
+		var envArg string
+
+		if args.Len() == 2 {
+			envArg = args.Get(0)
+			keyArg = args.Get(1)
+		} else {
+			keyArg = c.Args().Get(0)
+			envArg = ""
+		}
+
+		if !isValidKey(keyArg) {
+			return fmt.Errorf("invalid key '%s'", keyArg)
 		}
 
 		ww, err := readWorkWorkFile()
@@ -25,9 +36,18 @@ var gotoCommand = &cli.Command{
 			return err
 		}
 
+		urls := ww.Urls
+		if envArg != "" {
+			env, err := ww.GetEnvironment(envArg)
+			if err != nil {
+				return err
+			}
+			urls = env.Urls
+		}
+
 		foundMatch := false
-		for wwkey, url := range ww.Urls {
-			if key == wwkey {
+		for urlKey, url := range urls {
+			if keyArg == urlKey {
 				var err error
 
 				switch runtime.GOOS {
@@ -54,7 +74,7 @@ var gotoCommand = &cli.Command{
 		}
 
 		if !foundMatch {
-			return fmt.Errorf("found no url with key '%s'", key)
+			return fmt.Errorf("found no url with key '%s'", keyArg)
 		}
 
 		ui.mustFlush()

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
@@ -9,8 +10,27 @@ import (
 
 const workWorkFileName = ".workwork.yaml"
 
-type WorkWorkFile struct {
+type Environment struct {
+	Name string            `yaml:"name"`
 	Urls map[string]string `yaml:"urls"`
+}
+
+func NewEnvironment(name string, urls map[string]string) Environment {
+	return Environment{Name: name, Urls: urls}
+}
+
+type WorkWorkFile struct {
+	Urls         map[string]string `yaml:"urls"`
+	Environments []Environment     `yaml:"environments"`
+}
+
+func (f WorkWorkFile) GetEnvironment(env string) (*Environment, error) {
+	for _, environment := range f.Environments {
+		if env == environment.Name {
+			return &environment, nil
+		}
+	}
+	return nil, fmt.Errorf("no environment named '%s'", env)
 }
 
 func absoluteWorkWorkFilePath() (string, error) {

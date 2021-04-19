@@ -3,11 +3,12 @@ package main
 import "github.com/fatih/color"
 
 var (
-	hiRed   = color.New(color.FgHiRed).SprintFunc()
-	hiWhite = color.New(color.FgHiWhite).SprintFunc()
-	hiGreen = color.New(color.FgHiGreen).SprintFunc()
+	fgHiRed     = color.New(color.FgHiRed).SprintFunc()
+	fgHiWhite   = color.New(color.FgHiWhite).SprintFunc()
+	fgHiGreen   = color.New(color.FgHiGreen).SprintFunc()
+	fgHiMagenta = color.New(color.FgHiMagenta).SprintFunc()
 
-	boldHiRed    = color.New(color.Bold, color.FgHiRed).SprintFunc()
-	boldHiYellow = color.New(color.Bold, color.FgHiYellow).SprintFunc()
-	boldHiGreen  = color.New(color.Bold, color.FgHiGreen).SprintFunc()
+	boldFgHiRed    = color.New(color.Bold, color.FgHiRed).SprintFunc()
+	boldFgHiYellow = color.New(color.Bold, color.FgHiYellow).SprintFunc()
+	boldFgHiGreen  = color.New(color.Bold, color.FgHiGreen).SprintFunc()
 )

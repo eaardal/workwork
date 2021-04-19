@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-var snakeCaseRE = regexp.MustCompile("^[a-z]+(_[a-z]+)*$")
+var snakeCase = regexp.MustCompile("^[a-z]+(_[a-z]+)*$")
 
 func isValidUrl(addr string) bool {
 	uri, err := url.Parse(addr)
@@ -16,5 +16,5 @@ func isValidUrl(addr string) bool {
 }
 
 func isValidKey(key string) bool {
-	return snakeCaseRE.MatchString(key)
+	return snakeCase.MatchString(key)
 }

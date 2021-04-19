@@ -32,7 +32,7 @@ func (u userInterface) read() string {
 	return strings.TrimSuffix(text, "\n")
 }
 
-func (u userInterface) askUser(msg string, args ...interface{}) string {
+func (u userInterface) ask(msg string, args ...interface{}) string {
 	u.write(msg, args...)
 	return u.read()
 }

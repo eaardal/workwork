@@ -22,26 +22,26 @@ var setCommand = &cli.Command{
 
 		for _, item := range c.Args().Slice() {
 			if !strings.Contains(item, "=") {
-				printer.write("'%s' %s", boldHiRed(item), hiRed("is not a valid key=value pair"))
+				printer.write("'%s' %s", boldFgHiRed(item), fgHiRed("is not a valid key=value pair"))
 				return nil
 			}
 
 			parts := strings.Split(item, "=")
 			if len(parts) != 2 {
-				printer.write("'%s' %s %s %s", boldHiRed(item), hiRed("was split into"), boldHiRed(fmt.Sprintf("%d", len(parts))), hiRed("parts, but expected to find 2 parts"))
+				printer.write("'%s' %s %s %s", boldFgHiRed(item), fgHiRed("was split into"), boldFgHiRed(fmt.Sprintf("%d", len(parts))), fgHiRed("parts, but expected to find 2 parts"))
 				return nil
 			}
 
 			key := parts[0]
 			if !isValidKey(key) {
-				printer.write("'%s' %s", boldHiRed(key), hiRed("is not a valid key. Must be lowercase and snake_case"))
+				printer.write("'%s' %s", boldFgHiRed(key), fgHiRed("is not a valid key. Must be lowercase and snake_case"))
 				return nil
 			}
 
 			value := parts[1]
 
 			if !isValidUrl(value) {
-				printer.write("'%s' %s", boldHiRed(value), hiRed("is not a valid URL"))
+				printer.write("'%s' %s", boldFgHiRed(value), fgHiRed("is not a valid URL"))
 				return nil
 			}
 
@@ -54,7 +54,7 @@ var setCommand = &cli.Command{
 			for existingKey, existingValue := range ww.Urls {
 				if newKey == existingKey && existingValue != newValue {
 					ww.Urls[existingKey] = newValue
-					printer.write("Updated '%s' to '%s' (was '%s')", boldHiYellow(existingKey), hiWhite(newValue), existingValue)
+					printer.write("Updated '%s' to '%s' (was '%s')", boldFgHiYellow(existingKey), fgHiWhite(newValue), existingValue)
 					itemExists = true
 					break
 				}
@@ -62,7 +62,7 @@ var setCommand = &cli.Command{
 
 			if !itemExists {
 				ww.Urls[newKey] = newValue
-				printer.write("Added '%s' with URL '%s'", boldHiYellow(newKey), hiWhite(newValue))
+				printer.write("Added '%s' with URL '%s'", boldFgHiYellow(newKey), fgHiWhite(newValue))
 			}
 		}
 

@@ -28,14 +28,14 @@ var rmCommand = &cli.Command{
 			for key, url := range ww.Urls {
 				if key == keyToDelete {
 					delete(ww.Urls, key)
-					printer.write("%s '%s' (%s)", hiGreen("Removed"), boldHiYellow(keyToDelete), hiWhite(url))
+					printer.write("%s '%s' (%s)", fgHiGreen("Removed"), boldFgHiYellow(keyToDelete), fgHiWhite(url))
 					itemExists = true
 					break
 				}
 			}
 
 			if !itemExists {
-				printer.write("%s '%s'", hiRed("Found no URL with key"), boldHiYellow(keyToDelete))
+				printer.write("%s '%s'", fgHiRed("Found no URL with key"), boldFgHiYellow(keyToDelete))
 			}
 		}
 
