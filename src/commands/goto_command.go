@@ -1,18 +1,21 @@
-package main
+package commands
 
 import (
 	"fmt"
 	"github.com/urfave/cli/v2"
 	"os/exec"
 	"runtime"
+	"workwork/src/gui"
+	"workwork/src/validation"
+	"workwork/src/ww"
 )
 
-var gotoCommand = &cli.Command{
+var GoToCommand = &cli.Command{
 	Name:      "goto",
 	Usage:     "Open the URL for the given key using the default browser",
 	UsageText: "Any URLs listed by `ww ls` can be opened with this command: `ww goto {key}`. If you're on Mac, the `open` executable will be used. On Linux, it'll check for [open, xdg-open] in that order (more advanced Linux support probably needed). On Windows, the `start` executable will be used.",
 	Action: func(c *cli.Context) error {
-		ui := newUserInterface()
+		ui := gui.NewUserInterface()
 
 		args := c.Args()
 
@@ -27,18 +30,18 @@ var gotoCommand = &cli.Command{
 			envArg = ""
 		}
 
-		if !isValidKey(keyArg) {
+		if !validation.IsValidKey(keyArg) {
 			return fmt.Errorf("invalid key '%s'", keyArg)
 		}
 
-		ww, err := readWorkWorkFile()
+		wwFile, err := ww.ReadWorkWorkFile()
 		if err != nil {
 			return err
 		}
 
-		urls := ww.Urls
+		urls := wwFile.Urls
 		if envArg != "" {
-			env, err := ww.GetEnvironment(envArg)
+			env, err := wwFile.GetEnvironment(envArg)
 			if err != nil {
 				return err
 			}
@@ -77,7 +80,7 @@ var gotoCommand = &cli.Command{
 			return fmt.Errorf("found no url with key '%s'", keyArg)
 		}
 
-		ui.mustFlush()
+		ui.MustFlush()
 		return nil
 	},
 }

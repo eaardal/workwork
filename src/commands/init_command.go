@@ -1,18 +1,21 @@
-package main
+package commands
 
 import (
 	"github.com/urfave/cli/v2"
 	"strings"
+	"workwork/src/gui"
+	"workwork/src/validation"
+	"workwork/src/ww"
 )
 
-var initCommand = &cli.Command{
+var InitCommand = &cli.Command{
 	Name:      "init",
 	Usage:     "Create a .workwork file with default content",
 	UsageText: "Running `ww init` will start a wizard that will ask you for URLs for common things like docs, logs, ci, tasks, etc. The more you are able to fill in, the better. You can always add more, update or delete URLs later.",
 	Action: func(c *cli.Context) error {
-		ui := newUserInterface()
+		ui := gui.NewUserInterface()
 
-		ui.write("%s", fgHiGreen("Creating a new .workwork file"))
+		ui.Write("%s", gui.FgHiGreen("Creating a new .workwork file"))
 
 		defaults := map[string]string{
 			"contact": "",
@@ -33,25 +36,25 @@ var initCommand = &cli.Command{
 
 		aborted := false
 		for key := range defaults {
-			answer := ui.ask("%s '%s' %s", fgHiWhite("Enter a valid URL for"), boldFgHiYellow(key), fgHiWhite("or leave blank to ignore"))
+			answer := ui.Ask("%s '%s' %s", gui.FgHiWhite("Enter a valid URL for"), gui.BoldFgHiYellow(key), gui.FgHiWhite("or leave blank to ignore"))
 
 			if answer == "" {
 				delete(defaults, key)
 				continue
 			}
 
-			if isValidUrl(answer) {
+			if validation.IsValidUrl(answer) {
 				defaults[key] = answer
 				continue
 			}
 
-			ui.write("'%s' %s", boldFgHiRed(answer), fgHiRed("is not a valid URL"))
+			ui.Write("'%s' %s", gui.BoldFgHiRed(answer), gui.FgHiRed("is not a valid URL"))
 			aborted = true
 			break // TODO: Try same key again until it's correct instead of exiting
 		}
 
-		envs := make([]Environment, 0)
-		answer := ui.ask("%s:", fgHiWhite("App environments (space or comma separated e.x.: \"local dev test stage prod\")"))
+		envs := make([]ww.Environment, 0)
+		answer := ui.Ask("%s:", gui.FgHiWhite("App environments (space or comma separated e.x.: \"local dev test stage prod\")"))
 		trimmedAnswer := strings.TrimSpace(answer)
 
 		var parts []string
@@ -63,24 +66,24 @@ var initCommand = &cli.Command{
 
 		for _, part := range parts {
 			trimmedPart := strings.TrimSpace(part)
-			envs = append(envs, NewEnvironment(trimmedPart, envDefaults))
+			envs = append(envs, ww.NewEnvironment(trimmedPart, envDefaults))
 		}
 
 		for i, env := range envs {
 			for key := range env.Urls {
-				answer := ui.ask("[%s environment] %s '%s' %s", fgHiMagenta(env.Name), fgHiWhite("Enter a valid URL for"), boldFgHiYellow(key), fgHiWhite("or leave blank to ignore"))
+				answer := ui.Ask("[%s environment] %s '%s' %s", gui.FgHiMagenta(env.Name), gui.FgHiWhite("Enter a valid URL for"), gui.BoldFgHiYellow(key), gui.FgHiWhite("or leave blank to ignore"))
 
 				if answer == "" {
 					delete(envs[i].Urls, key)
 					continue
 				}
 
-				if isValidUrl(answer) {
+				if validation.IsValidUrl(answer) {
 					envs[i].Urls[key] = answer
 					continue
 				}
 
-				ui.write("'%s' %s", boldFgHiRed(answer), fgHiRed("is not a valid URL"))
+				ui.Write("'%s' %s", gui.BoldFgHiRed(answer), gui.FgHiRed("is not a valid URL"))
 				aborted = true
 				break // TODO: Try same key again until it's correct instead of exiting
 			}
@@ -90,19 +93,19 @@ var initCommand = &cli.Command{
 			return nil
 		}
 
-		ui.write("%s", fgHiGreen("\nRegistered URLs:"))
+		ui.Write("%s", gui.FgHiGreen("\nRegistered URLs:"))
 		for key, value := range defaults {
-			ui.write("%s\t%s", fgHiWhite(key), value)
+			ui.Write("%s\t%s", gui.FgHiWhite(key), value)
 		}
 
-		ui.write("\nYou can use the '%s' command to enter more URLs, or '%s' to read about all commdsn", boldFgHiGreen("set"), boldFgHiGreen("help"))
+		ui.Write("\nYou can use the '%s' command to enter more URLs, or '%s' to read about all commdsn", gui.BoldFgHiGreen("set"), gui.BoldFgHiGreen("help"))
 
-		file := WorkWorkFile{Urls: defaults, Environments: envs}
-		if err := writeWorkWorkFile(&file); err != nil {
+		file := ww.WorkWorkFile{Urls: defaults, Environments: envs}
+		if err := ww.WriteWorkWorkFile(&file); err != nil {
 			return err
 		}
 
-		ui.mustFlush()
+		ui.MustFlush()
 		return nil
 	},
 }

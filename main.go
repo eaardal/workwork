@@ -4,6 +4,7 @@ import (
 	"github.com/urfave/cli/v2"
 	"log"
 	"os"
+	"workwork/src/commands"
 )
 
 func main() {
@@ -11,11 +12,11 @@ func main() {
 		Name:  "WorkWork",
 		Usage: "A simple dictionary for listing and opening URLs for common software development concerns",
 		Commands: []*cli.Command{
-			initCommand,
-			lsCommand,
-			gotoCommand,
-			setCommand,
-			rmCommand,
+			commands.InitCommand,
+			commands.LSCommand,
+			commands.GoToCommand,
+			commands.SetCommand,
+			commands.RMCommand,
 		},
 	}
 

@@ -1,4 +1,4 @@
-package main
+package gui
 
 import (
 	"bufio"
@@ -13,9 +13,9 @@ type userInterface struct {
 	stdinReader *bufio.Reader
 }
 
-func newUserInterface() *userInterface {
+func NewUserInterface() *userInterface {
 	w := tabwriter.Writer{}
-	w.Init(os.Stdout, 0, 4, 0, '\t', 0)
+	w.Init(os.Stdout, 0, 8, 2, '\t', 0) //, tabwriter.Debug)
 
 	return &userInterface{
 		tabWriter:   &w,
@@ -23,21 +23,21 @@ func newUserInterface() *userInterface {
 	}
 }
 
-func (u userInterface) write(msg string, args ...interface{}) {
+func (u userInterface) Write(msg string, args ...interface{}) {
 	_, _ = fmt.Fprintln(u.tabWriter, fmt.Sprintf(msg, args...))
 }
 
-func (u userInterface) read() string {
+func (u userInterface) Read() string {
 	text, _ := u.stdinReader.ReadString('\n')
 	return strings.TrimSuffix(text, "\n")
 }
 
-func (u userInterface) ask(msg string, args ...interface{}) string {
-	u.write(msg, args...)
-	return u.read()
+func (u userInterface) Ask(msg string, args ...interface{}) string {
+	u.Write(msg, args...)
+	return u.Read()
 }
 
-func (u userInterface) mustFlush() {
+func (u userInterface) MustFlush() {
 	if err := u.tabWriter.Flush(); err != nil {
 		panic(err.Error())
 	}

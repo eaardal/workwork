@@ -1,4 +1,4 @@
-package main
+package validation
 
 import (
 	"net/url"
@@ -7,7 +7,7 @@ import (
 
 var snakeCase = regexp.MustCompile("^[a-z]+(_[a-z]+)*$")
 
-func isValidUrl(addr string) bool {
+func IsValidUrl(addr string) bool {
 	uri, err := url.Parse(addr)
 	if err != nil {
 		return false
@@ -15,6 +15,6 @@ func isValidUrl(addr string) bool {
 	return uri.Scheme != "" && uri.Host != ""
 }
 
-func isValidKey(key string) bool {
+func IsValidKey(key string) bool {
 	return snakeCase.MatchString(key)
 }

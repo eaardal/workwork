@@ -1,4 +1,4 @@
-package main
+package ww
 
 import (
 	"fmt"
@@ -33,17 +33,7 @@ func (f WorkWorkFile) GetEnvironment(env string) (*Environment, error) {
 	return nil, fmt.Errorf("no environment named '%s'", env)
 }
 
-func absoluteWorkWorkFilePath() (string, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return "", err
-	}
-
-	filepath := path.Join(wd, workWorkFileName)
-	return filepath, nil
-}
-
-func readWorkWorkFile() (*WorkWorkFile, error) {
+func ReadWorkWorkFile() (*WorkWorkFile, error) {
 	filepath, err := absoluteWorkWorkFilePath()
 	if err != nil {
 		return nil, err
@@ -62,7 +52,7 @@ func readWorkWorkFile() (*WorkWorkFile, error) {
 	return &ww, nil
 }
 
-func writeWorkWorkFile(ww *WorkWorkFile) error {
+func WriteWorkWorkFile(ww *WorkWorkFile) error {
 	filepath, err := absoluteWorkWorkFilePath()
 	if err != nil {
 		return err
@@ -78,4 +68,14 @@ func writeWorkWorkFile(ww *WorkWorkFile) error {
 	}
 
 	return nil
+}
+
+func absoluteWorkWorkFilePath() (string, error) {
+	wd, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+
+	filepath := path.Join(wd, workWorkFileName)
+	return filepath, nil
 }

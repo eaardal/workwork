@@ -1,17 +1,19 @@
-package main
+package commands
 
 import (
 	"github.com/urfave/cli/v2"
+	"workwork/src/gui"
+	"workwork/src/ww"
 )
 
-var rmCommand = &cli.Command{
+var RMCommand = &cli.Command{
 	Name:      "rm",
 	Usage:     "Remove the URL for the given key",
 	UsageText: "Remove a single URL: `ww rm {key}`. Remove many at once: `ww rm {key1} {key2} {key3}`",
 	Action: func(c *cli.Context) error {
-		printer := newUserInterface()
+		printer := gui.NewUserInterface()
 
-		ww, err := readWorkWorkFile()
+		wwFile, err := ww.ReadWorkWorkFile()
 		if err != nil {
 			return err
 		}
@@ -25,21 +27,21 @@ var rmCommand = &cli.Command{
 		for _, keyToDelete := range toBeDeleted {
 			itemExists := false
 
-			for key, url := range ww.Urls {
+			for key, url := range wwFile.Urls {
 				if key == keyToDelete {
-					delete(ww.Urls, key)
-					printer.write("%s '%s' (%s)", fgHiGreen("Removed"), boldFgHiYellow(keyToDelete), fgHiWhite(url))
+					delete(wwFile.Urls, key)
+					printer.Write("%s '%s' (%s)", gui.FgHiGreen("Removed"), gui.BoldFgHiYellow(keyToDelete), gui.FgHiWhite(url))
 					itemExists = true
 					break
 				}
 			}
 
 			if !itemExists {
-				printer.write("%s '%s'", fgHiRed("Found no URL with key"), boldFgHiYellow(keyToDelete))
+				printer.Write("%s '%s'", gui.FgHiRed("Found no URL with key"), gui.BoldFgHiYellow(keyToDelete))
 			}
 		}
 
-		if err := writeWorkWorkFile(ww); err != nil {
+		if err := ww.WriteWorkWorkFile(wwFile); err != nil {
 			return err
 		}
 
