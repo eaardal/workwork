@@ -11,7 +11,7 @@ var LSCommand = &cli.Command{
 	Usage:     "List all the registered URLs",
 	UsageText: "Example: `ww ls`",
 	Action: func(c *cli.Context) error {
-		wwFile, err := ww.ReadWorkWorkFile()
+		wwFile, err := ww.ReadWorkWorkYaml()
 		if err != nil {
 			return err
 		}

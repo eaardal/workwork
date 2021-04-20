@@ -23,12 +23,12 @@ func NewEnvironment(name string, urls map[string]string) Environment {
 	}
 }
 
-type WorkWorkFile struct {
+type WorkWorkYaml struct {
 	GlobalUrls   Urls          `yaml:"urls"`
 	Environments []Environment `yaml:"environments"`
 }
 
-func (f WorkWorkFile) GetEnvironment(env string) (*Environment, error) {
+func (f WorkWorkYaml) GetEnvironment(env string) (*Environment, error) {
 	for _, environment := range f.Environments {
 		if env == environment.Name {
 			return &environment, nil
@@ -37,7 +37,7 @@ func (f WorkWorkFile) GetEnvironment(env string) (*Environment, error) {
 	return nil, fmt.Errorf("no environment named '%s'", env)
 }
 
-func (f WorkWorkFile) GetUrls(environmentName string) (map[string]string, error) {
+func (f WorkWorkYaml) GetUrls(environmentName string) (map[string]string, error) {
 	if environmentName == "" || environmentName == Global {
 		return f.GlobalUrls, nil
 	}
@@ -50,8 +50,8 @@ func (f WorkWorkFile) GetUrls(environmentName string) (map[string]string, error)
 	return env.EnvironmentUrls, nil
 }
 
-func ReadWorkWorkFile() (*WorkWorkFile, error) {
-	filepath, err := absoluteWorkWorkFilePath()
+func ReadWorkWorkYaml() (*WorkWorkYaml, error) {
+	filepath, err := absoluteWorkWorkYamlFilePath()
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func ReadWorkWorkFile() (*WorkWorkFile, error) {
 		return nil, err
 	}
 
-	var ww WorkWorkFile
+	var ww WorkWorkYaml
 	if err := yaml.Unmarshal(file, &ww); err != nil {
 		return nil, err
 	}
@@ -69,8 +69,8 @@ func ReadWorkWorkFile() (*WorkWorkFile, error) {
 	return &ww, nil
 }
 
-func WriteWorkWorkFile(ww *WorkWorkFile) error {
-	filepath, err := absoluteWorkWorkFilePath()
+func WriteWorkWorkYaml(ww *WorkWorkYaml) error {
+	filepath, err := absoluteWorkWorkYamlFilePath()
 	if err != nil {
 		return err
 	}
@@ -87,7 +87,7 @@ func WriteWorkWorkFile(ww *WorkWorkFile) error {
 	return nil
 }
 
-func absoluteWorkWorkFilePath() (string, error) {
+func absoluteWorkWorkYamlFilePath() (string, error) {
 	wd, err := os.Getwd()
 	if err != nil {
 		return "", err

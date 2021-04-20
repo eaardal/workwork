@@ -13,7 +13,7 @@ var SetCommand = &cli.Command{
 	Action: func(c *cli.Context) error {
 		printer := gui.NewUserInterface()
 
-		wwFile, err := ww.ReadWorkWorkFile()
+		wwFile, err := ww.ReadWorkWorkYaml()
 		if err != nil {
 			return err
 		}
@@ -41,7 +41,7 @@ var SetCommand = &cli.Command{
 			}
 		}
 
-		if err := ww.WriteWorkWorkFile(wwFile); err != nil {
+		if err := ww.WriteWorkWorkYaml(wwFile); err != nil {
 			return err
 		}
 

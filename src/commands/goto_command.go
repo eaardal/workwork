@@ -21,7 +21,7 @@ var GoToCommand = &cli.Command{
 			return err
 		}
 
-		wwFile, err := ww.ReadWorkWorkFile()
+		wwFile, err := ww.ReadWorkWorkYaml()
 		if err != nil {
 			return err
 		}

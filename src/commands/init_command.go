@@ -46,8 +46,8 @@ var InitCommand = &cli.Command{
 
 		printUrls(ui, globalUrls, envs)
 
-		file := ww.WorkWorkFile{GlobalUrls: globalUrls, Environments: envs}
-		if err := ww.WriteWorkWorkFile(&file); err != nil {
+		file := ww.WorkWorkYaml{GlobalUrls: globalUrls, Environments: envs}
+		if err := ww.WriteWorkWorkYaml(&file); err != nil {
 			return err
 		}
 

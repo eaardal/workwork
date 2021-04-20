@@ -13,7 +13,7 @@ var GetCommand = &cli.Command{
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()
 
-		wwFile, err := ww.ReadWorkWorkFile()
+		wwFile, err := ww.ReadWorkWorkYaml()
 		if err != nil {
 			return err
 		}
@@ -48,7 +48,7 @@ var GetCommand = &cli.Command{
 			}
 		}
 
-		if err := ww.WriteWorkWorkFile(wwFile); err != nil {
+		if err := ww.WriteWorkWorkYaml(wwFile); err != nil {
 			return err
 		}
 
