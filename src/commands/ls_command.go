@@ -1,8 +1,6 @@
 package commands
 
 import (
-	"fmt"
-	"github.com/fatih/color"
 	"github.com/urfave/cli/v2"
 	"workwork/src/gui"
 	"workwork/src/ww"
@@ -18,38 +16,21 @@ var LSCommand = &cli.Command{
 			return err
 		}
 
-		hiWhite := color.New(color.FgHiWhite).SprintFunc()
 		ui := gui.NewUserInterface()
 
 		for key, value := range wwFile.Urls {
-			ui.Write("%s\t%s\t", hiWhite(key), value)
+			ui.Write("%s\t%s\t", gui.FgHiWhite(key), value)
 		}
 
 		for _, env := range wwFile.Environments {
 			ui.Write("\n%s", gui.FgHiGreen(env.Name))
 
 			for key, value := range env.Urls {
-				ui.Write("%s\t%s\t", hiWhite(key), value)
+				ui.Write("%s\t%s\t", gui.FgHiWhite(key), value)
 			}
 		}
 
 		ui.MustFlush()
 		return nil
 	},
-}
-
-func debugStr(str string) {
-	fmt.Printf("plain string: ")
-	fmt.Printf("%s", str)
-	fmt.Printf("\n")
-
-	fmt.Printf("quoted string: ")
-	fmt.Printf("%+q", str)
-	fmt.Printf("\n")
-
-	fmt.Printf("hex bytes: ")
-	for i := 0; i < len(str); i++ {
-		fmt.Printf("%x ", str[i])
-	}
-	fmt.Printf("\n")
 }

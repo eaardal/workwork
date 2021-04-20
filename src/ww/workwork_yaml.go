@@ -10,8 +10,6 @@ import (
 
 const workWorkFileName = ".workwork.yaml"
 
-type Urls map[string]string
-
 type Environment struct {
 	Name string            `yaml:"name"`
 	Urls map[string]string `yaml:"urls"`

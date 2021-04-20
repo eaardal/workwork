@@ -49,3 +49,19 @@ func (u userInterface) MustFlush() {
 		panic(err.Error())
 	}
 }
+
+func debugStr(str string) {
+	fmt.Printf("plain string: ")
+	fmt.Printf("%s", str)
+	fmt.Printf("\n")
+
+	fmt.Printf("quoted string: ")
+	fmt.Printf("%+q", str)
+	fmt.Printf("\n")
+
+	fmt.Printf("hex bytes: ")
+	for i := 0; i < len(str); i++ {
+		fmt.Printf("%x ", str[i])
+	}
+	fmt.Printf("\n")
+}

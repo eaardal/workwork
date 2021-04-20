@@ -44,7 +44,7 @@ var InitCommand = &cli.Command{
 			return nil
 		}
 
-		ui.Write("\nYou can use the '%s' command to enter more URLs, or '%s' to read about all commdsn", gui.BoldFgHiGreen("set"), gui.BoldFgHiGreen("help"))
+		printUrls(ui, globalUrls, envs)
 
 		file := ww.WorkWorkFile{Urls: globalUrls, Environments: envs}
 		if err := ww.WriteWorkWorkFile(&file); err != nil {
@@ -120,6 +120,16 @@ func fillEnvironmentUrls(ui gui.UserInterface, urls map[string]string) (envs []w
 func printUrls(ui gui.UserInterface, globalUrls ww.Urls, environmentUrls []ww.Environment) {
 	ui.Write("%s", gui.FgHiGreen("\nRegistered URLs:"))
 	for key, value := range globalUrls {
-		ui.Write("%s\t%s", gui.FgHiWhite(key), value)
+		ui.Write("%s\t%s\t", gui.FgHiWhite(key), value)
 	}
+
+	for _, env := range environmentUrls {
+		ui.Write("\n%s", gui.FgHiGreen(env.Name))
+
+		for key, value := range env.Urls {
+			ui.Write("%s\t%s\t", gui.FgHiWhite(key), value)
+		}
+	}
+
+	ui.Write("\nYou can use the '%s' command to enter more URLs, or '%s' to read about all commands", gui.BoldFgHiGreen("set"), gui.BoldFgHiGreen("help"))
 }

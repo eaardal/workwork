@@ -11,33 +11,32 @@ var RMCommand = &cli.Command{
 	Usage:     "Remove the URL for the given key",
 	UsageText: "Remove a single URL: `ww rm {key}`. Remove many at once: `ww rm {key1} {key2} {key3}`",
 	Action: func(c *cli.Context) error {
-		printer := gui.NewUserInterface()
+		ui := gui.NewUserInterface()
+
+		args, err := ParseAndValidateRMCommandArgs(c)
+		if err != nil {
+			return err
+		}
 
 		wwFile, err := ww.ReadWorkWorkFile()
 		if err != nil {
 			return err
 		}
 
-		toBeDeleted := make([]string, 0)
-
-		for _, item := range c.Args().Slice() {
-			toBeDeleted = append(toBeDeleted, item)
-		}
-
-		for _, keyToDelete := range toBeDeleted {
+		for _, keyToDelete := range args.UrlKeysToBeDeleted {
 			itemExists := false
 
-			for key, url := range wwFile.Urls {
-				if key == keyToDelete {
-					delete(wwFile.Urls, key)
-					printer.Write("%s '%s' (%s)", gui.FgHiGreen("Removed"), gui.BoldFgHiYellow(keyToDelete), gui.FgHiWhite(url))
+			for existingKey, existingUrl := range wwFile.Urls {
+				if existingKey == keyToDelete {
+					delete(wwFile.Urls, existingKey)
+					ui.Write("%s '%s' (%s)", gui.FgHiGreen("Removed"), gui.BoldFgHiYellow(keyToDelete), gui.FgHiWhite(existingUrl))
 					itemExists = true
 					break
 				}
 			}
 
 			if !itemExists {
-				printer.Write("%s '%s'", gui.FgHiRed("Found no URL with key"), gui.BoldFgHiYellow(keyToDelete))
+				ui.Write("%s '%s'", gui.FgHiRed("Found no URL with key"), gui.BoldFgHiYellow(keyToDelete))
 			}
 		}
 
