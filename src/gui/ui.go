@@ -8,6 +8,13 @@ import (
 	"text/tabwriter"
 )
 
+type UserInterface interface {
+	Write(msg string, args ...interface{})
+	Read() string
+	Ask(msg string, args ...interface{}) string
+	MustFlush()
+}
+
 type userInterface struct {
 	tabWriter   *tabwriter.Writer
 	stdinReader *bufio.Reader

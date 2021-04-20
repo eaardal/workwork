@@ -6,7 +6,6 @@ import (
 	"os/exec"
 	"runtime"
 	"workwork/src/gui"
-	"workwork/src/validation"
 	"workwork/src/ww"
 )
 
@@ -17,21 +16,9 @@ var GoToCommand = &cli.Command{
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()
 
-		args := c.Args()
-
-		var keyArg string
-		var envArg string
-
-		if args.Len() == 2 {
-			envArg = args.Get(0)
-			keyArg = args.Get(1)
-		} else {
-			keyArg = c.Args().Get(0)
-			envArg = ""
-		}
-
-		if !validation.IsValidKey(keyArg) {
-			return fmt.Errorf("invalid key '%s'", keyArg)
+		args, err := ParseAndValidateGoToCommandArgs(c)
+		if err != nil {
+			return err
 		}
 
 		wwFile, err := ww.ReadWorkWorkFile()
@@ -39,18 +26,15 @@ var GoToCommand = &cli.Command{
 			return err
 		}
 
-		urls := wwFile.Urls
-		if envArg != "" {
-			env, err := wwFile.GetEnvironment(envArg)
-			if err != nil {
-				return err
-			}
-			urls = env.Urls
+		urls, err := wwFile.GetUrls(args.Environment)
+		if err != nil {
+			return err
 		}
 
 		foundMatch := false
+
 		for urlKey, url := range urls {
-			if keyArg == urlKey {
+			if args.UrlKey == urlKey {
 				var err error
 
 				switch runtime.GOOS {
@@ -77,7 +61,7 @@ var GoToCommand = &cli.Command{
 		}
 
 		if !foundMatch {
-			return fmt.Errorf("found no url with key '%s'", keyArg)
+			return fmt.Errorf("found no url with key '%s'", args.UrlKey)
 		}
 
 		ui.MustFlush()

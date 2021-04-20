@@ -10,6 +10,8 @@ import (
 
 const workWorkFileName = ".workwork.yaml"
 
+type Urls map[string]string
+
 type Environment struct {
 	Name string            `yaml:"name"`
 	Urls map[string]string `yaml:"urls"`
@@ -31,6 +33,19 @@ func (f WorkWorkFile) GetEnvironment(env string) (*Environment, error) {
 		}
 	}
 	return nil, fmt.Errorf("no environment named '%s'", env)
+}
+
+func (f WorkWorkFile) GetUrls(environmentName string) (map[string]string, error) {
+	if environmentName == "" {
+		return f.Urls, nil
+	}
+
+	env, err := f.GetEnvironment(environmentName)
+	if err != nil {
+		return nil, err
+	}
+
+	return env.Urls, nil
 }
 
 func ReadWorkWorkFile() (*WorkWorkFile, error) {
