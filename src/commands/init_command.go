@@ -46,7 +46,7 @@ var InitCommand = &cli.Command{
 
 		printUrls(ui, globalUrls, envs)
 
-		file := ww.WorkWorkFile{Urls: globalUrls, Environments: envs}
+		file := ww.WorkWorkFile{GlobalUrls: globalUrls, Environments: envs}
 		if err := ww.WriteWorkWorkFile(&file); err != nil {
 			return err
 		}
@@ -91,20 +91,22 @@ func fillEnvironmentUrls(ui gui.UserInterface, urls map[string]string) (envs []w
 
 	for _, part := range parts {
 		trimmedPart := strings.TrimSpace(part)
-		envs = append(envs, ww.NewEnvironment(trimmedPart, urls))
+		lower := strings.ToLower(trimmedPart)
+		// TODO: Validate environment name
+		envs = append(envs, ww.NewEnvironment(lower, urls))
 	}
 
 	for i, env := range envs {
-		for key := range env.Urls {
+		for key := range env.EnvironmentUrls {
 			answer := ui.Ask("[%s environment] %s '%s' %s", gui.FgHiMagenta(env.Name), gui.FgHiWhite("Enter a valid URL for"), gui.BoldFgHiYellow(key), gui.FgHiWhite("or leave blank to ignore"))
 
 			if answer == "" {
-				delete(envs[i].Urls, key)
+				delete(envs[i].EnvironmentUrls, key)
 				continue
 			}
 
 			if validation.IsValidUrl(answer) {
-				envs[i].Urls[key] = answer
+				envs[i].EnvironmentUrls[key] = answer
 				continue
 			}
 
@@ -118,7 +120,8 @@ func fillEnvironmentUrls(ui gui.UserInterface, urls map[string]string) (envs []w
 }
 
 func printUrls(ui gui.UserInterface, globalUrls ww.Urls, environmentUrls []ww.Environment) {
-	ui.Write("%s", gui.FgHiGreen("\nRegistered URLs:"))
+	ui.Write("%s", gui.FgHiGreen("\nglobal"))
+
 	for key, value := range globalUrls {
 		ui.Write("%s\t%s\t", gui.FgHiWhite(key), value)
 	}
@@ -126,7 +129,7 @@ func printUrls(ui gui.UserInterface, globalUrls ww.Urls, environmentUrls []ww.En
 	for _, env := range environmentUrls {
 		ui.Write("\n%s", gui.FgHiGreen(env.Name))
 
-		for key, value := range env.Urls {
+		for key, value := range env.EnvironmentUrls {
 			ui.Write("%s\t%s\t", gui.FgHiWhite(key), value)
 		}
 	}

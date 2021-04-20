@@ -9,7 +9,7 @@ import (
 var LSCommand = &cli.Command{
 	Name:      "ls",
 	Usage:     "List all the registered URLs",
-	UsageText: "Run like this: `ww ls`",
+	UsageText: "Example: `ww ls`",
 	Action: func(c *cli.Context) error {
 		wwFile, err := ww.ReadWorkWorkFile()
 		if err != nil {
@@ -18,14 +18,16 @@ var LSCommand = &cli.Command{
 
 		ui := gui.NewUserInterface()
 
-		for key, value := range wwFile.Urls {
+		ui.Write("%s", gui.FgHiGreen("global"))
+
+		for key, value := range wwFile.GlobalUrls {
 			ui.Write("%s\t%s\t", gui.FgHiWhite(key), value)
 		}
 
 		for _, env := range wwFile.Environments {
 			ui.Write("\n%s", gui.FgHiGreen(env.Name))
 
-			for key, value := range env.Urls {
+			for key, value := range env.EnvironmentUrls {
 				ui.Write("%s\t%s\t", gui.FgHiWhite(key), value)
 			}
 		}

@@ -9,19 +9,23 @@ import (
 )
 
 const workWorkFileName = ".workwork.yaml"
+const Global = "global"
 
 type Environment struct {
-	Name string            `yaml:"name"`
-	Urls map[string]string `yaml:"urls"`
+	Name            string `yaml:"name"`
+	EnvironmentUrls Urls   `yaml:"urls"`
 }
 
 func NewEnvironment(name string, urls map[string]string) Environment {
-	return Environment{Name: name, Urls: urls}
+	return Environment{
+		Name:            name,
+		EnvironmentUrls: urls,
+	}
 }
 
 type WorkWorkFile struct {
-	Urls         map[string]string `yaml:"urls"`
-	Environments []Environment     `yaml:"environments"`
+	GlobalUrls   Urls          `yaml:"urls"`
+	Environments []Environment `yaml:"environments"`
 }
 
 func (f WorkWorkFile) GetEnvironment(env string) (*Environment, error) {
@@ -34,8 +38,8 @@ func (f WorkWorkFile) GetEnvironment(env string) (*Environment, error) {
 }
 
 func (f WorkWorkFile) GetUrls(environmentName string) (map[string]string, error) {
-	if environmentName == "" {
-		return f.Urls, nil
+	if environmentName == "" || environmentName == Global {
+		return f.GlobalUrls, nil
 	}
 
 	env, err := f.GetEnvironment(environmentName)
@@ -43,7 +47,7 @@ func (f WorkWorkFile) GetUrls(environmentName string) (map[string]string, error)
 		return nil, err
 	}
 
-	return env.Urls, nil
+	return env.EnvironmentUrls, nil
 }
 
 func ReadWorkWorkFile() (*WorkWorkFile, error) {

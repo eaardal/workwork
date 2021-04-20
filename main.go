@@ -17,6 +17,7 @@ func main() {
 			commands.GoToCommand,
 			commands.SetCommand,
 			commands.RMCommand,
+			commands.GetCommand,
 		},
 	}
 
