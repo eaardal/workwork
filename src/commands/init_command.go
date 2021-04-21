@@ -1,11 +1,11 @@
 package commands
 
 import (
+	"github.com/eaardal/workwork/src/gui"
+	"github.com/eaardal/workwork/src/validation"
+	"github.com/eaardal/workwork/src/ww"
 	"github.com/urfave/cli/v2"
 	"strings"
-	"workwork/src/gui"
-	"workwork/src/validation"
-	"workwork/src/ww"
 )
 
 var InitCommand = &cli.Command{

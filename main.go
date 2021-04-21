@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/eaardal/workwork/src/commands"
 	"github.com/urfave/cli/v2"
 	"log"
 	"os"
-	"workwork/src/commands"
 )
 
 func main() {

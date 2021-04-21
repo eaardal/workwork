@@ -2,9 +2,9 @@ package commands
 
 import (
 	"fmt"
+	"github.com/eaardal/workwork/src/ww"
 	"github.com/urfave/cli/v2"
 	"strings"
-	"workwork/src/ww"
 )
 
 type GetArgs struct {

@@ -1,9 +1,9 @@
 package commands
 
 import (
+	"github.com/eaardal/workwork/src/gui"
+	"github.com/eaardal/workwork/src/ww"
 	"github.com/urfave/cli/v2"
-	"workwork/src/gui"
-	"workwork/src/ww"
 )
 
 var GetCommand = &cli.Command{

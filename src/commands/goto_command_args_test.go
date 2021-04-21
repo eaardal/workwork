@@ -2,10 +2,10 @@ package commands_test
 
 import (
 	"flag"
+	"github.com/eaardal/workwork/src/commands"
 	"github.com/stretchr/testify/assert"
 	"github.com/urfave/cli/v2"
 	"testing"
-	"workwork/src/commands"
 )
 
 func TestParseAndValidateGoToCommandArgs_Key_KeyIsSetAndEnvironmentIsEmptyString(t *testing.T) {

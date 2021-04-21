@@ -2,11 +2,11 @@ package commands
 
 import (
 	"fmt"
+	"github.com/eaardal/workwork/src/gui"
+	"github.com/eaardal/workwork/src/ww"
 	"github.com/urfave/cli/v2"
 	"os/exec"
 	"runtime"
-	"workwork/src/gui"
-	"workwork/src/ww"
 )
 
 var GoToCommand = &cli.Command{

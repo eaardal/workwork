@@ -1,9 +1,9 @@
 package commands_test
 
 import (
+	"github.com/eaardal/workwork/src/commands"
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"workwork/src/commands"
 )
 
 func TestParseAndValidateRMCommandArgs_NoArgs_ReturnsError(t *testing.T) {

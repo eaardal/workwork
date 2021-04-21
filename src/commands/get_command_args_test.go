@@ -1,10 +1,10 @@
 package commands_test
 
 import (
+	"github.com/eaardal/workwork/src/commands"
+	"github.com/eaardal/workwork/src/ww"
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"workwork/src/commands"
-	"workwork/src/ww"
 )
 
 func TestParseAndValidateGetCommandArgs_Key_ReturnsUrlKeys(t *testing.T) {

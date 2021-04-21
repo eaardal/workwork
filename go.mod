@@ -1,4 +1,4 @@
-module workwork
+module github.com/eaardal/workwork
 
 go 1.15
 

@@ -2,10 +2,10 @@ package commands
 
 import (
 	"fmt"
+	"github.com/eaardal/workwork/src/validation"
+	"github.com/eaardal/workwork/src/ww"
 	"github.com/urfave/cli/v2"
 	"strings"
-	"workwork/src/validation"
-	"workwork/src/ww"
 )
 
 type SetArgs struct {

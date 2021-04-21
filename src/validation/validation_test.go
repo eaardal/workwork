@@ -1,8 +1,8 @@
 package validation_test
 
 import (
+	"github.com/eaardal/workwork/src/validation"
 	"testing"
-	"workwork/src/validation"
 )
 
 func TestIsValidUrl_WhenUrlIsValid_ReturnsTrue(t *testing.T) {
