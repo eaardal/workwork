@@ -101,3 +101,5 @@ GLOBAL OPTIONS:
 - More options when running `init` to make a blank `.workwork.yaml` without running through the prompts.
 - Export markdown and thereby html of the links, making it possible to copy & paste the URLs as markdown to other documentation systems or host the html page or something.
 - Better support for `ww goto` command to open many urls at once.
+- Windows support not tested much, probably needs work.
+- Linux support not tested much, probably needs work.
