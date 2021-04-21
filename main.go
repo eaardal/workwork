@@ -16,9 +16,8 @@ func main() {
 			commands.LSCommand,
 			commands.GoToCommand,
 			commands.SetCommand,
-			commands.RMCommand,
 			commands.GetCommand,
-			commands.MakeGlobalCommand,
+			commands.RMCommand,
 		},
 	}
 
