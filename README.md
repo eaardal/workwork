@@ -37,8 +37,7 @@ environments:
 - `ww goto docs` would open the corresponding URL in a browser.
 - `ww goto ci`
 - `ww goto local.logs` open environment urls.
-- `ww goto prod.live`
-- `ww goto ci docs prod.logs prod.monitoring` open many at once. 
+- `ww goto prod.live` 
 
 And so on.
 
@@ -97,7 +96,8 @@ GLOBAL OPTIONS:
    --help, -h  show help (default: false)
 ```
 
-## Roadmap
+## TODO
 
 - More options when running `init` to make a blank `.workwork.yaml` without running through the prompts.
 - Export markdown and thereby html of the links, making it possible to copy & paste the URLs as markdown to other documentation systems or host the html page or something.
+- Better support for `ww goto` command to open many urls at once.
