@@ -2,3 +2,5 @@
 .workwork*
 ww
 !ww/
+build/
+.DS_Store
