@@ -5,14 +5,44 @@ _A simple dictionary for listing and opening URLs for common software developmen
 ## Concept
 
 Software development requires a lot of resources and services. When you're neck deep in a project or a veteran on your team at work, this is no problem. You know where everything is and how all the systems fits together.
-Then there are everyone else: New hires on the teams, handoffs to other teams or companies, and legacy projects that noone remembers anything about, let alone where to find logs and how the build pipeline works.
+Then there are everyone else: New hires on the teams, handoffs to other teams or companies, and legacy projects that no one remembers anything about, let alone where to find logs and how the build pipeline works.
 
 This CLI utility (simply invoked as `ww` in a terminal) simply stores a dictionary of URLs for common software development concerns and services, such as documentation, task board, issues, getting started info, build server, deploy server, logs dashboard, monitoring dashboard, and so on.
-You can of course register whatever URLs you want in addition to, or completely replacing, the default ones.
+You can of course register whatever URLs you want, in addition to - or completely replacing - the default ones.
 
-When these URLs has been saved, the `ww ls` command will make it simple to get a complete listing of all the project's spiderweb of related resources, and the `ww goto` command lets you open a browser to go there.
+When these URLs has been saved, the `ww ls` command will make it simple to get a complete listing of all the project's related resources, and the `ww goto` command lets you open a browser to go there.
 
-It's also super convenient to just run `ww goto ci` to open the build server in a browser or `ww goto pulls` to open the pull requests instead of manually switching to the browser and finding a bookmark or - god forbid - typing the URL yourself.
+Example:
+```yaml
+// .workwork.yaml
+
+urls:
+  docs: https://my-documentation.com/my-app
+  ci: https://circleci.com
+  newbie: https://my-documentation.com/company/onboarding
+
+environments:
+  - name: local
+    urls:
+      live: http://localhost:8080/my-app
+      logs: https://localhost:8081/logs
+
+  - name: prod
+    urls:
+      live: http://my-app.com
+      logs: https://my-prod-logs.com
+      monitoring: https://grafana.com
+```
+
+- `ww goto docs` would open the corresponding URL in a browser.
+- `ww goto ci`
+- `ww goto local.logs` open environment urls.
+- `ww goto prod.live`
+- `ww goto ci docs prod.logs prod.monitoring` open many at once. 
+
+And so on.
+
+Besides being useful for your team, it's also super convenient to just run `ww goto ci` to open the build server in a browser or `ww goto pulls` to open the pull requests instead of manually switching to the browser and finding a bookmark or - god forbid - type the URL yourself.
 
 ## Installation
 
@@ -23,7 +53,7 @@ It's also super convenient to just run `ww goto ci` to open the build server in 
 
 ### Go
 
-If you have Go installed, simply installing the repo should make it available on your PATH.
+If you have Go installed, simply installing the repo should make it available on your PATH (it will be put in your $GOPATH/bin).
 ```
 go install github.com/eaardal/workwork
 ```
