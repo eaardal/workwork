@@ -58,6 +58,8 @@ If you have Go installed, simply installing the repo should make it available on
 go install github.com/eaardal/workwork
 ```
 
+_Note: This will install the executable as `workwork` and not `ww` so you'll probably want to make an alias for convenience._
+
 ## Getting started
 
 1. In a terminal, `cd` to your repository.
