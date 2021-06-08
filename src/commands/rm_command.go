@@ -29,7 +29,7 @@ var RMCommand = &cli.Command{
 			for existingKey, existingUrl := range wwFile.GlobalUrls {
 				if existingKey == keyToDelete {
 					delete(wwFile.GlobalUrls, existingKey)
-					ui.Write("%s '%s' (%s)", gui.FgHiGreen("Removed"), gui.BoldFgHiYellow(keyToDelete), gui.FgHiWhite(existingUrl))
+					ui.Write("%s '%s' (%s)", gui.FgHiGreen("Removed"), gui.BoldFgHiYellow(keyToDelete), existingUrl)
 					itemExists = true
 					break
 				}

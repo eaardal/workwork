@@ -36,7 +36,7 @@ var GetCommand = &cli.Command{
 
 				for fileUrlKey, url := range wwFileUrls {
 					if urlKey == fileUrlKey {
-						ui.Write("%s\t%s\t", gui.FgHiWhite(fileUrlKey), url)
+						ui.Write("%s\t%s\t", fileUrlKey, url)
 						itemExists = true
 						break
 					}

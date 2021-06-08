@@ -58,28 +58,28 @@ var InitCommand = &cli.Command{
 
 func fillGlobalUrls(ui gui.UserInterface, urls map[string]string) (aborted bool) {
 	for key := range urls {
-		answer := ui.Ask("%s '%s' %s", gui.FgHiWhite("Enter a valid URL for"), gui.BoldFgHiYellow(key), gui.FgHiWhite("or leave blank to ignore"))
+		for {
+			answer := ui.Ask("Enter a valid URL for '%s' or leave blank to ignore", gui.BoldFgHiYellow(key))
 
-		if answer == "" {
-			delete(urls, key)
-			continue
+			if answer == "" {
+				delete(urls, key)
+				break
+			}
+
+			if validation.IsValidUrl(answer) {
+				urls[key] = answer
+				break
+			}
+
+			ui.Write("'%s' %s", gui.BoldFgHiRed(answer), gui.FgHiRed("is not a valid URL"))
 		}
-
-		if validation.IsValidUrl(answer) {
-			urls[key] = answer
-			continue
-		}
-
-		ui.Write("'%s' %s", gui.BoldFgHiRed(answer), gui.FgHiRed("is not a valid URL"))
-		aborted = true
-		break // TODO: Try same key again until it's correct instead of exiting
 	}
 
 	return aborted
 }
 
 func fillEnvironmentUrls(ui gui.UserInterface, urls map[string]string) (envs []ww.Environment, aborted bool) {
-	answer := ui.Ask("%s:", gui.FgHiWhite("App environments (space or comma separated e.x.: \"local dev test stage prod\")"))
+	answer := ui.Ask("App environments (space or comma separated e.x.: \"local dev test stage prod\"):")
 	trimmedAnswer := strings.TrimSpace(answer)
 
 	var parts []string
@@ -98,7 +98,7 @@ func fillEnvironmentUrls(ui gui.UserInterface, urls map[string]string) (envs []w
 
 	for i, env := range envs {
 		for key := range env.EnvironmentUrls {
-			answer := ui.Ask("[%s environment] %s '%s' %s", gui.FgHiMagenta(env.Name), gui.FgHiWhite("Enter a valid URL for"), gui.BoldFgHiYellow(key), gui.FgHiWhite("or leave blank to ignore"))
+			answer := ui.Ask("[%s environment] Enter a valid URL for '%s' or leave blank to ignore", gui.FgHiMagenta(env.Name), gui.BoldFgHiYellow(key))
 
 			if answer == "" {
 				delete(envs[i].EnvironmentUrls, key)
@@ -123,14 +123,14 @@ func printUrls(ui gui.UserInterface, globalUrls ww.Urls, environmentUrls []ww.En
 	ui.Write("%s", gui.FgHiGreen("\nglobal"))
 
 	for key, value := range globalUrls {
-		ui.Write("%s\t%s\t", gui.FgHiWhite(key), value)
+		ui.Write("%s\t%s\t", key, value)
 	}
 
 	for _, env := range environmentUrls {
 		ui.Write("\n%s", gui.FgHiGreen(env.Name))
 
 		for key, value := range env.EnvironmentUrls {
-			ui.Write("%s\t%s\t", gui.FgHiWhite(key), value)
+			ui.Write("%s\t%s\t", key, value)
 		}
 	}
 

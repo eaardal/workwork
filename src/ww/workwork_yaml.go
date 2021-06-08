@@ -1,6 +1,7 @@
 package ww
 
 import (
+	"bufio"
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -81,6 +82,39 @@ func WriteWorkWorkYaml(ww *WorkWorkYaml) error {
 	}
 
 	if err := ioutil.WriteFile(filepath, wwYaml, 0644); err != nil {
+		return err
+	}
+
+	if err := prependHeaderToYamlFile(filepath); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func prependHeaderToYamlFile(filepath string) (e error) {
+	headerLines := `
+# This file was made by Workwork, a CLI tool for listing and opening URLs for common software development concerns.
+# Read more at: https://github.com/eaardal/workwork
+`
+
+	f, err := os.OpenFile(filepath, os.O_CREATE|os.O_WRONLY, 0600)
+	if err != nil {
+		return err
+	}
+
+	defer func() {
+		if err := f.Close(); err != nil {
+			e = err
+		}
+	}()
+
+	writer := bufio.NewWriter(f)
+	if _, err := writer.WriteString(headerLines); err != nil {
+		return err
+	}
+
+	if err := writer.Flush(); err != nil {
 		return err
 	}
 

@@ -4,7 +4,6 @@ import "github.com/fatih/color"
 
 var (
 	FgHiRed     = color.New(color.FgHiRed).SprintFunc()
-	FgHiWhite   = color.New(color.FgHiWhite).SprintFunc()
 	FgHiGreen   = color.New(color.FgHiGreen).SprintFunc()
 	FgHiMagenta = color.New(color.FgHiMagenta).SprintFunc()
 

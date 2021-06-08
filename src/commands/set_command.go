@@ -29,7 +29,7 @@ var SetCommand = &cli.Command{
 			for existingKey, existingValue := range wwFile.GlobalUrls {
 				if urlKey == existingKey && existingValue != url {
 					wwFile.GlobalUrls[existingKey] = url
-					printer.Write("Updated '%s' to '%s' (was '%s')", gui.BoldFgHiYellow(existingKey), gui.FgHiWhite(url), existingValue)
+					printer.Write("Updated '%s' to '%s' (was '%s')", gui.BoldFgHiYellow(existingKey), url, existingValue)
 					itemExists = true
 					break
 				}
@@ -37,7 +37,7 @@ var SetCommand = &cli.Command{
 
 			if !itemExists {
 				wwFile.GlobalUrls[urlKey] = url
-				printer.Write("Added '%s' with URL '%s'", gui.BoldFgHiYellow(urlKey), gui.FgHiWhite(url))
+				printer.Write("Added '%s' with URL '%s'", gui.BoldFgHiYellow(urlKey), url)
 			}
 		}
 

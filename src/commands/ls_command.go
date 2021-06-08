@@ -21,14 +21,14 @@ var LSCommand = &cli.Command{
 		ui.Write("%s", gui.FgHiGreen("global"))
 
 		for key, value := range wwFile.GlobalUrls {
-			ui.Write("%s\t%s\t", gui.FgHiWhite(key), value)
+			ui.Write("%s\t%s\t", key, value)
 		}
 
 		for _, env := range wwFile.Environments {
 			ui.Write("\n%s", gui.FgHiGreen(env.Name))
 
 			for key, value := range env.EnvironmentUrls {
-				ui.Write("%s\t%s\t", gui.FgHiWhite(key), value)
+				ui.Write("%s\t%s\t", key, value)
 			}
 		}
 
