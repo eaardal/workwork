@@ -31,7 +31,7 @@ func NewUserInterface() *userInterface {
 }
 
 func (u userInterface) Write(msg string, args ...interface{}) {
-	_, _ = fmt.Fprintln(u.tabWriter, fmt.Sprintf(msg, args...))
+	_, _ = fmt.Fprintf(u.tabWriter, fmt.Sprintf(msg+"\n", args...))
 }
 
 func (u userInterface) Read() string {
