@@ -17,6 +17,7 @@ var LSCommand = &cli.Command{
 		}
 
 		ui := gui.NewUserInterface()
+		defer ui.MustFlush()
 
 		ui.Write("%s", gui.FgHiGreen("global"))
 
@@ -32,7 +33,6 @@ var LSCommand = &cli.Command{
 			}
 		}
 
-		ui.MustFlush()
 		return nil
 	},
 }

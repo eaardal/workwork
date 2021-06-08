@@ -14,6 +14,7 @@ var InitCommand = &cli.Command{
 	UsageText: "Running `ww init` will start a wizard that will ask you for URLs for common things like docs, logs, ci, tasks, etc. The more you are able to fill in, the better. You can always add more, update or delete URLs later.",
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()
+		defer ui.MustFlush()
 
 		ui.Write("%s", gui.FgHiGreen("Creating a new .workwork file"))
 
@@ -44,7 +45,6 @@ var InitCommand = &cli.Command{
 			return err
 		}
 
-		ui.MustFlush()
 		return nil
 	},
 }

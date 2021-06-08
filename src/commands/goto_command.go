@@ -15,6 +15,7 @@ var GoToCommand = &cli.Command{
 	UsageText: "Any URLs listed by `ww ls` can be opened with this command: `ww goto {key}`. If you're on Mac, the `open` executable will be used. On Linux, it'll check for [open, xdg-open] in that order (more advanced Linux support probably needed). On Windows, the `start` executable will be used.",
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()
+		defer ui.MustFlush()
 
 		args, err := ParseAndValidateGoToCommandArgs(c)
 		if err != nil {
@@ -64,7 +65,6 @@ var GoToCommand = &cli.Command{
 			return fmt.Errorf("found no url with key '%s'", args.UrlKey)
 		}
 
-		ui.MustFlush()
 		return nil
 	},
 }

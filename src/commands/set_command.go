@@ -11,7 +11,8 @@ var SetCommand = &cli.Command{
 	Usage:     "Set a new URL for an existing key, or add a new URL if the key doesn't exist",
 	UsageText: "Add or update single item: `ww set key=url`. Add or update many at once: `ww set key=url key=url key=url`. If the key exists, the URL will be updated. If the key doesn't exist, the URL will be added. Keys must consist of a-z lower cased letters only and use snake_case if you need spacing.",
 	Action: func(c *cli.Context) error {
-		printer := gui.NewUserInterface()
+		ui := gui.NewUserInterface()
+		defer ui.MustFlush()
 
 		wwFile, err := ww.ReadWorkWorkYaml()
 		if err != nil {
@@ -29,7 +30,7 @@ var SetCommand = &cli.Command{
 			for existingKey, existingValue := range wwFile.GlobalUrls {
 				if urlKey == existingKey && existingValue != url {
 					wwFile.GlobalUrls[existingKey] = url
-					printer.Write("Updated '%s' to '%s' (was '%s')", gui.BoldFgHiYellow(existingKey), url, existingValue)
+					ui.Write("Updated '%s' to '%s' (was '%s')", gui.BoldFgHiYellow(existingKey), url, existingValue)
 					itemExists = true
 					break
 				}
@@ -37,7 +38,7 @@ var SetCommand = &cli.Command{
 
 			if !itemExists {
 				wwFile.GlobalUrls[urlKey] = url
-				printer.Write("Added '%s' with URL '%s'", gui.BoldFgHiYellow(urlKey), url)
+				ui.Write("Added '%s' with URL '%s'", gui.BoldFgHiYellow(urlKey), url)
 			}
 		}
 

@@ -12,6 +12,7 @@ var RMCommand = &cli.Command{
 	UsageText: "Remove a single URL: `ww rm {key}`. Remove many at once: `ww rm {key1} {key2} {key3}`",
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()
+		defer ui.MustFlush()
 
 		args, err := ParseAndValidateRMCommandArgs(c)
 		if err != nil {

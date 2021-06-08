@@ -12,6 +12,7 @@ var GetCommand = &cli.Command{
 	UsageText: "Example: `ww get docs`, `ww get docs prod.logs dev.logs`",
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()
+		defer ui.MustFlush()
 
 		wwFile, err := ww.ReadWorkWorkYaml()
 		if err != nil {
@@ -52,7 +53,6 @@ var GetCommand = &cli.Command{
 			return err
 		}
 
-		ui.MustFlush()
 		return nil
 	},
 }
