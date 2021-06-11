@@ -19,14 +19,14 @@ var InitCommand = &cli.Command{
 		ui.Write("%s", gui.FgHiGreen("Creating a new .workwork file"))
 
 		globalUrls := map[string]string{
-			"contact ": "",
-			"repo":     "",
-			"ci":       "",
-			"cd":       "",
-			"issues":   "",
-			"pulls":    "",
-			"tasks":    "",
-			"docs":     "",
+			"contact": "",
+			"repo":    "",
+			"ci":      "",
+			"cd":      "",
+			"issues":  "",
+			"pulls":   "",
+			"tasks":   "",
+			"docs":    "",
 		}
 
 		environmentUrls := map[string]string{
