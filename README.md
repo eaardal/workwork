@@ -43,6 +43,8 @@ And so on.
 
 Besides being useful for your team, it's also super convenient to just run `ww goto ci` to open the build server in a browser or `ww goto pulls` to open the pull requests instead of manually switching to the browser and finding a bookmark or - god forbid - type the URL yourself.
 
+:exclamation: The `ww goto` function is not tested much on Linux and Windows (yet). Please report bugs.
+
 ## Installation
 
 ### Download archive
