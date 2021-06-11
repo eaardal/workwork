@@ -85,9 +85,9 @@ func WriteWorkWorkYaml(ww *WorkWorkYaml) error {
 		return err
 	}
 
-	if err := prependHeaderToYamlFile(filepath); err != nil {
-		return err
-	}
+	//if err := prependHeaderToYamlFile(filepath); err != nil {
+	//	return err
+	//}
 
 	return nil
 }
