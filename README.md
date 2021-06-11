@@ -103,3 +103,4 @@ GLOBAL OPTIONS:
 - Better support for `ww goto` command to open many urls at once.
 - Windows support not tested much, probably needs work.
 - Linux support not tested much, probably needs work.
+- Make it possible to publish .workwork.yaml to a centralized registry/feed so that one can lookup app resources without having access to the repository. In some cases you might not know where the repo is or who to contact for asking for access. Having the ability to search for a repository/project and find basic getting started or contact information could be useful. The .workwork.yaml file shouldn't contain any sensitive information and pretty much everyone uses a login-based documentation platform or taskboard so the risk of publishing sensitive information should (in theory) be minimal. But of course, privacy and security would be critical to such a feature.
