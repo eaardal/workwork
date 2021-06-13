@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"github.com/eaardal/workwork/src/utils"
 	"github.com/eaardal/workwork/src/validation"
 	"github.com/eaardal/workwork/src/ww"
 	"github.com/urfave/cli/v2"
@@ -9,7 +10,8 @@ import (
 )
 
 type SetArgs struct {
-	Urls ww.Urls
+	Urls             ww.Urls
+	WorkingDirectory string
 }
 
 func ParseAndValidateSetCommandArgs(c *cli.Context) (*SetArgs, error) {
@@ -39,5 +41,13 @@ func ParseAndValidateSetCommandArgs(c *cli.Context) (*SetArgs, error) {
 		urls[key] = value
 	}
 
-	return &SetArgs{Urls: urls}, nil
+	wd, err := utils.ResolveWorkingDirectory(c)
+	if err != nil {
+		return nil, fmt.Errorf("unable to resolve wd: %v", err)
+	}
+
+	return &SetArgs{
+		Urls:             urls,
+		WorkingDirectory: wd,
+	}, nil
 }

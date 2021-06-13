@@ -2,18 +2,21 @@ package commands
 
 import (
 	"fmt"
+	"github.com/eaardal/workwork/src/utils"
 	"github.com/eaardal/workwork/src/ww"
 	"github.com/urfave/cli/v2"
 	"strings"
 )
 
 type GetArgs struct {
-	UrlKeys map[string][]string
+	UrlKeys          map[string][]string
+	WorkingDirectory string
 }
 
 func ParseAndValidateGetCommandArgs(c *cli.Context) (*GetArgs, error) {
-	args := c.Args().Slice()
 	urls := make(map[string][]string, 0)
+	args := c.Args().Slice()
+
 	for _, arg := range args {
 		trimmed := strings.TrimSpace(arg)
 		if strings.Contains(trimmed, ".") {
@@ -35,5 +38,14 @@ func ParseAndValidateGetCommandArgs(c *cli.Context) (*GetArgs, error) {
 			urls[ww.Global] = append(urls[ww.Global], trimmed)
 		}
 	}
-	return &GetArgs{UrlKeys: urls}, nil
+
+	wd, err := utils.ResolveWorkingDirectory(c)
+	if err != nil {
+		return nil, fmt.Errorf("unable to resolve wd: %v", err)
+	}
+
+	return &GetArgs{
+		UrlKeys:          urls,
+		WorkingDirectory: wd,
+	}, nil
 }

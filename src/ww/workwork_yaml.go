@@ -51,8 +51,8 @@ func (f WorkWorkYaml) GetUrls(environmentName string) (map[string]string, error)
 	return env.EnvironmentUrls, nil
 }
 
-func ReadWorkWorkYaml() (*WorkWorkYaml, error) {
-	filepath, err := absoluteWorkWorkYamlFilePath()
+func ReadWorkWorkYaml(rootDir string) (*WorkWorkYaml, error) {
+	filepath, err := AbsoluteWorkWorkYamlFilePath(rootDir)
 	if err != nil {
 		return nil, err
 	}
@@ -70,8 +70,8 @@ func ReadWorkWorkYaml() (*WorkWorkYaml, error) {
 	return &ww, nil
 }
 
-func WriteWorkWorkYaml(ww *WorkWorkYaml) error {
-	filepath, err := absoluteWorkWorkYamlFilePath()
+func WriteWorkWorkYaml(rootDir string, ww *WorkWorkYaml) error {
+	filepath, err := AbsoluteWorkWorkYamlFilePath(rootDir)
 	if err != nil {
 		return err
 	}
@@ -90,6 +90,11 @@ func WriteWorkWorkYaml(ww *WorkWorkYaml) error {
 	//}
 
 	return nil
+}
+
+func AbsoluteWorkWorkYamlFilePath(rootDir string) (string, error) {
+	filepath := path.Join(rootDir, workWorkFileName)
+	return filepath, nil
 }
 
 func prependHeaderToYamlFile(filepath string) (e error) {
@@ -119,14 +124,4 @@ func prependHeaderToYamlFile(filepath string) (e error) {
 	}
 
 	return nil
-}
-
-func absoluteWorkWorkYamlFilePath() (string, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return "", err
-	}
-
-	filepath := path.Join(wd, workWorkFileName)
-	return filepath, nil
 }

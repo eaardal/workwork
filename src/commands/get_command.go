@@ -14,18 +14,18 @@ var GetCommand = &cli.Command{
 		ui := gui.NewUserInterface()
 		defer ui.MustFlush()
 
-		wwFile, err := ww.ReadWorkWorkYaml()
-		if err != nil {
-			return err
-		}
-
 		args, err := ParseAndValidateGetCommandArgs(c)
 		if err != nil {
 			return err
 		}
 
+		wwYaml, err := ww.ReadWorkWorkYaml(args.WorkingDirectory)
+		if err != nil {
+			return err
+		}
+
 		for environmentName, environmentUrlKeys := range args.UrlKeys {
-			wwFileUrls, err := wwFile.GetUrls(environmentName)
+			wwFileUrls, err := wwYaml.GetUrls(environmentName)
 			if err != nil {
 				return err
 			}
@@ -49,7 +49,7 @@ var GetCommand = &cli.Command{
 			}
 		}
 
-		if err := ww.WriteWorkWorkYaml(wwFile); err != nil {
+		if err := ww.WriteWorkWorkYaml(args.WorkingDirectory, wwYaml); err != nil {
 			return err
 		}
 

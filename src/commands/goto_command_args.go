@@ -2,15 +2,17 @@ package commands
 
 import (
 	"fmt"
+	"github.com/eaardal/workwork/src/utils"
 	"github.com/eaardal/workwork/src/validation"
 	"github.com/urfave/cli/v2"
 	"strings"
 )
 
 type GoToArgs struct {
-	UrlKey         string
-	Environment    string
-	HasEnvironment bool
+	UrlKey           string
+	Environment      string
+	HasEnvironment   bool
+	WorkingDirectory string
 }
 
 func ParseAndValidateGoToCommandArgs(c *cli.Context) (*GoToArgs, error) {
@@ -41,9 +43,15 @@ func ParseAndValidateGoToCommandArgs(c *cli.Context) (*GoToArgs, error) {
 		return nil, fmt.Errorf("invalid key '%s'", keyArg)
 	}
 
+	wd, err := utils.ResolveWorkingDirectory(c)
+	if err != nil {
+		return nil, fmt.Errorf("unable to resolve wd: %v", err)
+	}
+
 	return &GoToArgs{
-		UrlKey:         keyArg,
-		Environment:    envArg,
-		HasEnvironment: envArg != "",
+		UrlKey:           keyArg,
+		Environment:      envArg,
+		HasEnvironment:   envArg != "",
+		WorkingDirectory: wd,
 	}, nil
 }

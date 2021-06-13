@@ -19,7 +19,7 @@ var RMCommand = &cli.Command{
 			return err
 		}
 
-		wwFile, err := ww.ReadWorkWorkYaml()
+		wwYaml, err := ww.ReadWorkWorkYaml(args.WorkingDirectory)
 		if err != nil {
 			return err
 		}
@@ -27,9 +27,9 @@ var RMCommand = &cli.Command{
 		for _, keyToDelete := range args.UrlKeysToBeDeleted {
 			itemExists := false
 
-			for existingKey, existingUrl := range wwFile.GlobalUrls {
+			for existingKey, existingUrl := range wwYaml.GlobalUrls {
 				if existingKey == keyToDelete {
-					delete(wwFile.GlobalUrls, existingKey)
+					delete(wwYaml.GlobalUrls, existingKey)
 					ui.Write("%s '%s' (%s)", gui.FgHiGreen("Removed"), gui.BoldFgHiYellow(keyToDelete), existingUrl)
 					itemExists = true
 					break
@@ -41,7 +41,7 @@ var RMCommand = &cli.Command{
 			}
 		}
 
-		if err := ww.WriteWorkWorkYaml(wwFile); err != nil {
+		if err := ww.WriteWorkWorkYaml(args.WorkingDirectory, wwYaml); err != nil {
 			return err
 		}
 

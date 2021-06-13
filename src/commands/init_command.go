@@ -2,6 +2,7 @@ package commands
 
 import (
 	"github.com/eaardal/workwork/src/gui"
+	"github.com/eaardal/workwork/src/utils"
 	"github.com/eaardal/workwork/src/validation"
 	"github.com/eaardal/workwork/src/ww"
 	"github.com/urfave/cli/v2"
@@ -12,9 +13,17 @@ var InitCommand = &cli.Command{
 	Name:      "init",
 	Usage:     "Create a .workwork file with default content",
 	UsageText: "Running `ww init` will start a wizard that will ask you for URLs for common things like docs, logs, ci, tasks, etc. The more you are able to fill in, the better. You can always add more, update or delete URLs later.",
+	Flags: []cli.Flag{
+		utils.BuildWorkingDirectoryFlag(),
+	},
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()
 		defer ui.MustFlush()
+
+		args, err := ParseAndValidateInitCommandArgs(c)
+		if err != nil {
+			return err
+		}
 
 		ui.Write("%s", gui.FgHiGreen("Creating a new .workwork file"))
 
@@ -41,7 +50,7 @@ var InitCommand = &cli.Command{
 		printUrls(ui, globalUrls, envs)
 
 		file := ww.WorkWorkYaml{GlobalUrls: globalUrls, Environments: envs}
-		if err := ww.WriteWorkWorkYaml(&file); err != nil {
+		if err := ww.WriteWorkWorkYaml(args.WorkingDirectory, &file); err != nil {
 			return err
 		}
 

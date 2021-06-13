@@ -3,6 +3,7 @@ package commands
 import (
 	"fmt"
 	"github.com/eaardal/workwork/src/gui"
+	"github.com/eaardal/workwork/src/utils"
 	"github.com/eaardal/workwork/src/ww"
 	"github.com/urfave/cli/v2"
 	"os/exec"
@@ -13,6 +14,9 @@ var GoToCommand = &cli.Command{
 	Name:      "goto",
 	Usage:     "Open the URL for the given key using the default browser",
 	UsageText: "Any URLs listed by `ww ls` can be opened with this command: `ww goto {key}`. If you're on Mac, the `open` executable will be used. On Linux, it'll check for [open, xdg-open] in that order (more advanced Linux support probably needed). On Windows, the `start` executable will be used.",
+	Flags: []cli.Flag{
+		utils.BuildWorkingDirectoryFlag(),
+	},
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()
 		defer ui.MustFlush()
@@ -22,12 +26,12 @@ var GoToCommand = &cli.Command{
 			return err
 		}
 
-		wwFile, err := ww.ReadWorkWorkYaml()
+		wwYaml, err := ww.ReadWorkWorkYaml(args.WorkingDirectory)
 		if err != nil {
 			return err
 		}
 
-		urls, err := wwFile.GetUrls(args.Environment)
+		urls, err := wwYaml.GetUrls(args.Environment)
 		if err != nil {
 			return err
 		}
@@ -85,6 +89,16 @@ func openOnLinux(url string) error {
 	}
 
 	path, err = exec.LookPath("xdg-open")
+	if err == nil && path != "" {
+		return exec.Command(path, url).Run()
+	}
+
+	path, err = exec.LookPath("x-www-browser")
+	if err == nil && path != "" {
+		return exec.Command(path, url).Run()
+	}
+
+	path, err = exec.LookPath("sensible-browser")
 	if err == nil && path != "" {
 		return exec.Command(path, url).Run()
 	}

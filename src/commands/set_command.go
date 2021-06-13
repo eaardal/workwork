@@ -14,12 +14,12 @@ var SetCommand = &cli.Command{
 		ui := gui.NewUserInterface()
 		defer ui.MustFlush()
 
-		wwFile, err := ww.ReadWorkWorkYaml()
+		args, err := ParseAndValidateSetCommandArgs(c)
 		if err != nil {
 			return err
 		}
 
-		args, err := ParseAndValidateSetCommandArgs(c)
+		wwYaml, err := ww.ReadWorkWorkYaml(args.WorkingDirectory)
 		if err != nil {
 			return err
 		}
@@ -27,9 +27,9 @@ var SetCommand = &cli.Command{
 		for urlKey, url := range args.Urls {
 			itemExists := false
 
-			for existingKey, existingValue := range wwFile.GlobalUrls {
+			for existingKey, existingValue := range wwYaml.GlobalUrls {
 				if urlKey == existingKey && existingValue != url {
-					wwFile.GlobalUrls[existingKey] = url
+					wwYaml.GlobalUrls[existingKey] = url
 					ui.Write("Updated '%s' to '%s' (was '%s')", gui.BoldFgHiYellow(existingKey), url, existingValue)
 					itemExists = true
 					break
@@ -37,12 +37,12 @@ var SetCommand = &cli.Command{
 			}
 
 			if !itemExists {
-				wwFile.GlobalUrls[urlKey] = url
+				wwYaml.GlobalUrls[urlKey] = url
 				ui.Write("Added '%s' with URL '%s'", gui.BoldFgHiYellow(urlKey), url)
 			}
 		}
 
-		if err := ww.WriteWorkWorkYaml(wwFile); err != nil {
+		if err := ww.WriteWorkWorkYaml(args.WorkingDirectory, wwYaml); err != nil {
 			return err
 		}
 
