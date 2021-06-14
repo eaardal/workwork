@@ -12,7 +12,7 @@ type InitCommandArgs struct {
 }
 
 func ParseAndValidateInitCommandArgs(c *cli.Context) (*InitCommandArgs, error) {
-	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlag)
+	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlagName)
 
 	wd, err := utils.ResolveWorkingDirectory(c, useGlobalWorkWorkYamlFile)
 	if err != nil {

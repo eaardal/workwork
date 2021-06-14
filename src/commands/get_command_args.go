@@ -40,7 +40,7 @@ func ParseAndValidateGetCommandArgs(c *cli.Context) (*GetArgs, error) {
 		}
 	}
 
-	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlag)
+	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlagName)
 
 	wd, err := utils.ResolveWorkingDirectory(c, useGlobalWorkWorkYamlFile)
 	if err != nil {

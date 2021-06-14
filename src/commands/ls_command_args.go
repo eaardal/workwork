@@ -12,7 +12,7 @@ type LSCommandArgs struct {
 }
 
 func ParseAndValidateLSCommandArgs(c *cli.Context) (*LSCommandArgs, error) {
-	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlag)
+	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlagName)
 
 	wd, err := utils.ResolveWorkingDirectory(c, useGlobalWorkWorkYamlFile)
 	if err != nil {

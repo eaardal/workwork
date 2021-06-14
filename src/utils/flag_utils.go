@@ -6,13 +6,13 @@ import (
 )
 
 const (
-	WorkingDirectoryFlag = "working-directory"
-	GlobalFlag           = "global"
+	WorkingDirectoryFlagName = "working-directory"
+	GlobalFlagName           = "global"
 )
 
-func BuildWorkingDirectoryFlag() cli.Flag {
+func WorkingDirectoryFlag() cli.Flag {
 	return &cli.StringFlag{
-		Name:        WorkingDirectoryFlag,
+		Name:        WorkingDirectoryFlagName,
 		Aliases:     []string{"wd"},
 		Usage:       "The full path to the working directory for the command. If not set, the current working directory is used.",
 		EnvVars:     []string{"WORKWORK_WD"},
@@ -26,7 +26,7 @@ func ResolveWorkingDirectory(c *cli.Context, useGlobalWorkWorkYamlFile bool) (st
 		return home, nil
 	}
 
-	workingDirectory := c.String(WorkingDirectoryFlag)
+	workingDirectory := c.String(WorkingDirectoryFlagName)
 	if workingDirectory == "" {
 		return os.Getwd()
 	}
@@ -34,9 +34,9 @@ func ResolveWorkingDirectory(c *cli.Context, useGlobalWorkWorkYamlFile bool) (st
 	return workingDirectory, nil
 }
 
-func BuildGlobalFlag() cli.Flag {
+func GlobalFlag() cli.Flag {
 	return &cli.BoolFlag{
-		Name:    GlobalFlag,
+		Name:    GlobalFlagName,
 		Aliases: []string{"g"},
 		Usage:   "Use the global .workwork.yaml for your machine user profile file instead of a local/project/repository one",
 	}

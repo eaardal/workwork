@@ -15,8 +15,8 @@ var GoToCommand = &cli.Command{
 	Usage:     "Open the URL for the given key using the default browser",
 	UsageText: "Any URLs listed by `ww ls` can be opened with this command: `ww goto {key}`. If you're on Mac, the `open` executable will be used. On Linux, it'll check for [open, xdg-open] in that order (more advanced Linux support probably needed). On Windows, the `start` executable will be used.",
 	Flags: []cli.Flag{
-		utils.BuildWorkingDirectoryFlag(),
-		utils.BuildGlobalFlag(),
+		utils.WorkingDirectoryFlag(),
+		utils.GlobalFlag(),
 	},
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()

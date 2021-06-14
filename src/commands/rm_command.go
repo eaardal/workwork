@@ -12,8 +12,8 @@ var RMCommand = &cli.Command{
 	Usage:     "Remove the URL for the given key",
 	UsageText: "Remove a single URL: `ww rm {key}`. Remove many at once: `ww rm {key1} {key2} {key3}`",
 	Flags: []cli.Flag{
-		utils.BuildWorkingDirectoryFlag(),
-		utils.BuildGlobalFlag(),
+		utils.WorkingDirectoryFlag(),
+		utils.GlobalFlag(),
 	},
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()

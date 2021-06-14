@@ -12,8 +12,8 @@ var GetCommand = &cli.Command{
 	Usage:     "Show the URL for a specific key",
 	UsageText: "Example: `ww get docs`, `ww get docs prod.logs dev.logs`",
 	Flags: []cli.Flag{
-		utils.BuildWorkingDirectoryFlag(),
-		utils.BuildGlobalFlag(),
+		utils.WorkingDirectoryFlag(),
+		utils.GlobalFlag(),
 	},
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()

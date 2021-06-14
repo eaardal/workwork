@@ -44,7 +44,7 @@ func ParseAndValidateGoToCommandArgs(c *cli.Context) (*GoToArgs, error) {
 		return nil, fmt.Errorf("invalid key '%s'", keyArg)
 	}
 
-	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlag)
+	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlagName)
 
 	wd, err := utils.ResolveWorkingDirectory(c, useGlobalWorkWorkYamlFile)
 	if err != nil {

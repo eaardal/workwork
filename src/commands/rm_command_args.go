@@ -17,7 +17,7 @@ func ParseAndValidateRMCommandArgs(c *cli.Context) (*RMArgs, error) {
 		return nil, fmt.Errorf("no url keys specified. See `ww rm --help` for correct usage")
 	}
 
-	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlag)
+	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlagName)
 
 	wd, err := utils.ResolveWorkingDirectory(c, useGlobalWorkWorkYamlFile)
 	if err != nil {

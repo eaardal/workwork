@@ -12,8 +12,8 @@ var LSCommand = &cli.Command{
 	Usage:     "List all the registered URLs",
 	UsageText: "Example: `ww ls`",
 	Flags: []cli.Flag{
-		utils.BuildWorkingDirectoryFlag(),
-		utils.BuildGlobalFlag(),
+		utils.WorkingDirectoryFlag(),
+		utils.GlobalFlag(),
 	},
 	Action: func(c *cli.Context) error {
 		args, err := ParseAndValidateLSCommandArgs(c)

@@ -42,7 +42,7 @@ func ParseAndValidateSetCommandArgs(c *cli.Context) (*SetArgs, error) {
 		urls[key] = value
 	}
 
-	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlag)
+	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlagName)
 
 	wd, err := utils.ResolveWorkingDirectory(c, useGlobalWorkWorkYamlFile)
 	if err != nil {

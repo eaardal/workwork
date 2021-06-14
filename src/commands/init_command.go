@@ -15,8 +15,8 @@ var InitCommand = &cli.Command{
 	Usage:     "Create a .workwork file with default content",
 	UsageText: "Running `ww init` will start a wizard that will ask you for URLs for common things like docs, logs, ci, tasks, etc. The more you are able to fill in, the better. You can always add more, update or delete URLs later.",
 	Flags: []cli.Flag{
-		utils.BuildWorkingDirectoryFlag(),
-		utils.BuildGlobalFlag(),
+		utils.WorkingDirectoryFlag(),
+		utils.GlobalFlag(),
 	},
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()
