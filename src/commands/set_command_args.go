@@ -12,6 +12,7 @@ import (
 type SetArgs struct {
 	Urls             ww.Urls
 	WorkingDirectory string
+	Global           bool
 }
 
 func ParseAndValidateSetCommandArgs(c *cli.Context) (*SetArgs, error) {
@@ -41,7 +42,9 @@ func ParseAndValidateSetCommandArgs(c *cli.Context) (*SetArgs, error) {
 		urls[key] = value
 	}
 
-	wd, err := utils.ResolveWorkingDirectory(c)
+	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlag)
+
+	wd, err := utils.ResolveWorkingDirectory(c, useGlobalWorkWorkYamlFile)
 	if err != nil {
 		return nil, fmt.Errorf("unable to resolve wd: %v", err)
 	}
@@ -49,5 +52,6 @@ func ParseAndValidateSetCommandArgs(c *cli.Context) (*SetArgs, error) {
 	return &SetArgs{
 		Urls:             urls,
 		WorkingDirectory: wd,
+		Global:           useGlobalWorkWorkYamlFile,
 	}, nil
 }

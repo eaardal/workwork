@@ -11,6 +11,7 @@ import (
 type GetArgs struct {
 	UrlKeys          map[string][]string
 	WorkingDirectory string
+	Global           bool
 }
 
 func ParseAndValidateGetCommandArgs(c *cli.Context) (*GetArgs, error) {
@@ -39,7 +40,9 @@ func ParseAndValidateGetCommandArgs(c *cli.Context) (*GetArgs, error) {
 		}
 	}
 
-	wd, err := utils.ResolveWorkingDirectory(c)
+	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlag)
+
+	wd, err := utils.ResolveWorkingDirectory(c, useGlobalWorkWorkYamlFile)
 	if err != nil {
 		return nil, fmt.Errorf("unable to resolve wd: %v", err)
 	}
@@ -47,5 +50,6 @@ func ParseAndValidateGetCommandArgs(c *cli.Context) (*GetArgs, error) {
 	return &GetArgs{
 		UrlKeys:          urls,
 		WorkingDirectory: wd,
+		Global:           useGlobalWorkWorkYamlFile,
 	}, nil
 }

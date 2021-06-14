@@ -8,13 +8,19 @@ import (
 
 type LSCommandArgs struct {
 	WorkingDirectory string
+	Global           bool
 }
 
 func ParseAndValidateLSCommandArgs(c *cli.Context) (*LSCommandArgs, error) {
-	wd, err := utils.ResolveWorkingDirectory(c)
+	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlag)
+
+	wd, err := utils.ResolveWorkingDirectory(c, useGlobalWorkWorkYamlFile)
 	if err != nil {
 		return nil, fmt.Errorf("unable to resolve wd: %v", err)
 	}
 
-	return &LSCommandArgs{WorkingDirectory: wd}, nil
+	return &LSCommandArgs{
+		WorkingDirectory: wd,
+		Global:           useGlobalWorkWorkYamlFile,
+	}, nil
 }

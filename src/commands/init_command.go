@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"fmt"
 	"github.com/eaardal/workwork/src/gui"
 	"github.com/eaardal/workwork/src/utils"
 	"github.com/eaardal/workwork/src/validation"
@@ -15,6 +16,7 @@ var InitCommand = &cli.Command{
 	UsageText: "Running `ww init` will start a wizard that will ask you for URLs for common things like docs, logs, ci, tasks, etc. The more you are able to fill in, the better. You can always add more, update or delete URLs later.",
 	Flags: []cli.Flag{
 		utils.BuildWorkingDirectoryFlag(),
+		utils.BuildGlobalFlag(),
 	},
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()
@@ -25,7 +27,21 @@ var InitCommand = &cli.Command{
 			return err
 		}
 
-		ui.Write("%s", gui.FgHiGreen("Creating a new .workwork file"))
+		if args.Global {
+			ui.Write(gui.FgHiGreen("Creating a new global .workwork.yaml file."))
+
+			file := &ww.WorkWorkYaml{GlobalUrls: ww.Urls{}, Environments: nil}
+			if err := ww.WriteWorkWorkYaml(args.WorkingDirectory, file); err != nil {
+				return err
+			}
+
+			ui.Write(gui.FgHiMagenta("There are no defaults configured for the global .workwork.yaml file."))
+			filepath, _ := ww.AbsoluteWorkWorkYamlFilePath(args.WorkingDirectory)
+			ui.Write(gui.FgHiMagenta(fmt.Sprintf("Open %s in any text editor or use the 'get', 'set', 'rm' and 'ls' commands to get started", filepath)))
+			return nil
+		}
+
+		ui.Write(gui.FgHiGreen("Creating a new .workwork.yaml file"))
 
 		globalUrls := map[string]string{
 			"contact": "",

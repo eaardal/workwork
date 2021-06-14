@@ -13,6 +13,7 @@ type GoToArgs struct {
 	Environment      string
 	HasEnvironment   bool
 	WorkingDirectory string
+	Global           bool
 }
 
 func ParseAndValidateGoToCommandArgs(c *cli.Context) (*GoToArgs, error) {
@@ -43,7 +44,9 @@ func ParseAndValidateGoToCommandArgs(c *cli.Context) (*GoToArgs, error) {
 		return nil, fmt.Errorf("invalid key '%s'", keyArg)
 	}
 
-	wd, err := utils.ResolveWorkingDirectory(c)
+	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlag)
+
+	wd, err := utils.ResolveWorkingDirectory(c, useGlobalWorkWorkYamlFile)
 	if err != nil {
 		return nil, fmt.Errorf("unable to resolve wd: %v", err)
 	}
@@ -53,5 +56,6 @@ func ParseAndValidateGoToCommandArgs(c *cli.Context) (*GoToArgs, error) {
 		Environment:      envArg,
 		HasEnvironment:   envArg != "",
 		WorkingDirectory: wd,
+		Global:           useGlobalWorkWorkYamlFile,
 	}, nil
 }

@@ -16,6 +16,7 @@ var GoToCommand = &cli.Command{
 	UsageText: "Any URLs listed by `ww ls` can be opened with this command: `ww goto {key}`. If you're on Mac, the `open` executable will be used. On Linux, it'll check for [open, xdg-open] in that order (more advanced Linux support probably needed). On Windows, the `start` executable will be used.",
 	Flags: []cli.Flag{
 		utils.BuildWorkingDirectoryFlag(),
+		utils.BuildGlobalFlag(),
 	},
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()
@@ -103,5 +104,5 @@ func openOnLinux(url string) error {
 		return exec.Command(path, url).Run()
 	}
 
-	return fmt.Errorf("unable to open '%s'. Looked for executables ['open', 'xdg-open'] but found none", url)
+	return fmt.Errorf("unable to open '%s'. Looked for executables ['open', 'xdg-open', 'x-www-browser', 'sensible-browser'] but found none", url)
 }

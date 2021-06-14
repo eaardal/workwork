@@ -9,6 +9,7 @@ import (
 type RMArgs struct {
 	UrlKeysToBeDeleted []string
 	WorkingDirectory   string
+	Global             bool
 }
 
 func ParseAndValidateRMCommandArgs(c *cli.Context) (*RMArgs, error) {
@@ -16,7 +17,9 @@ func ParseAndValidateRMCommandArgs(c *cli.Context) (*RMArgs, error) {
 		return nil, fmt.Errorf("no url keys specified. See `ww rm --help` for correct usage")
 	}
 
-	wd, err := utils.ResolveWorkingDirectory(c)
+	useGlobalWorkWorkYamlFile := c.Bool(utils.GlobalFlag)
+
+	wd, err := utils.ResolveWorkingDirectory(c, useGlobalWorkWorkYamlFile)
 	if err != nil {
 		return nil, fmt.Errorf("unable to resolve wd: %v", err)
 	}
@@ -24,5 +27,6 @@ func ParseAndValidateRMCommandArgs(c *cli.Context) (*RMArgs, error) {
 	return &RMArgs{
 		UrlKeysToBeDeleted: c.Args().Slice(),
 		WorkingDirectory:   wd,
+		Global:             useGlobalWorkWorkYamlFile,
 	}, nil
 }

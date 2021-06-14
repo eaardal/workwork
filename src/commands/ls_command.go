@@ -13,6 +13,7 @@ var LSCommand = &cli.Command{
 	UsageText: "Example: `ww ls`",
 	Flags: []cli.Flag{
 		utils.BuildWorkingDirectoryFlag(),
+		utils.BuildGlobalFlag(),
 	},
 	Action: func(c *cli.Context) error {
 		args, err := ParseAndValidateLSCommandArgs(c)

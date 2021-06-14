@@ -2,6 +2,7 @@ package commands
 
 import (
 	"github.com/eaardal/workwork/src/gui"
+	"github.com/eaardal/workwork/src/utils"
 	"github.com/eaardal/workwork/src/ww"
 	"github.com/urfave/cli/v2"
 )
@@ -10,6 +11,10 @@ var RMCommand = &cli.Command{
 	Name:      "rm",
 	Usage:     "Remove the URL for the given key",
 	UsageText: "Remove a single URL: `ww rm {key}`. Remove many at once: `ww rm {key1} {key2} {key3}`",
+	Flags: []cli.Flag{
+		utils.BuildWorkingDirectoryFlag(),
+		utils.BuildGlobalFlag(),
+	},
 	Action: func(c *cli.Context) error {
 		ui := gui.NewUserInterface()
 		defer ui.MustFlush()

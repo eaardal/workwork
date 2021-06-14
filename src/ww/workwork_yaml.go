@@ -26,7 +26,7 @@ func NewEnvironment(name string, urls map[string]string) Environment {
 
 type WorkWorkYaml struct {
 	GlobalUrls   Urls          `yaml:"urls"`
-	Environments []Environment `yaml:"environments"`
+	Environments []Environment `yaml:"environments,omitempty"`
 }
 
 func (f WorkWorkYaml) GetEnvironment(env string) (*Environment, error) {
