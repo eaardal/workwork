@@ -39,5 +39,6 @@ func GlobalFlag() cli.Flag {
 		Name:    GlobalFlagName,
 		Aliases: []string{"g"},
 		Usage:   "Use the global .workwork.yaml for your machine user profile file instead of a local/project/repository one",
+		EnvVars: []string{"WORKWORK_GLOBAL"},
 	}
 }
